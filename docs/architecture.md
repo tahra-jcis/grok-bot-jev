@@ -27,7 +27,7 @@ The Python router normalizes state, defines the Jev choice/noul/score questions,
 
 ## Kick roster
 
-`python -m src.cli maker-pick` is a second entry point for one kick cycle. It asks seven Choice questions in a single `system_one` call and returns `choice`, `kick_mode`, `model`, `effort`, `review`, `design`, and `plan`. See [DECISION_MAP.md](../DECISION_MAP.md). It does not launch makers, reviewers, or design/plan passes. A disabled router, bypass marker, or Jev error fail-opens to documented defaults and still writes `logs/runs.jsonl`. Confidence below `min_choice_confidence` flags `below_threshold` without replacing the Choice and without a second model call. Review options cannot be the orchestrator (`pooh` / `orchestrator`).
+`python -m src.cli maker-pick` is a second entry point for one kick cycle. It asks maker + roster Choices plus an urgency Score in a single `system_one` call and returns `choice`, `kick_mode`, `model`, `effort`, `review`, `design`, and `plan` (`urgency_0_1` is additive). See [DECISION_MAP.md](../DECISION_MAP.md). It does not launch makers, reviewers, or design/plan passes. A disabled router, bypass marker, or Jev error fail-opens to documented defaults and still writes `logs/runs.jsonl`. Confidence below `min_choice_confidence` flags `below_threshold` without replacing the Choice and without a second model call. Review options cannot be the orchestrator (`pooh` / `orchestrator`), and all-empty residuals with low urgency force `defer`.
 
 ## What works
 

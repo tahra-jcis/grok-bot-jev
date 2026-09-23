@@ -24,7 +24,8 @@ logging:
 # are dropped. Point models at explicit ids the kick platform accepts.
 maker_pick:
   defaults:
-    choice: cursor
+    # fail-open maker default; prefer_local=true still biases to cursor
+    choice: defer
     kick_mode: interactive
     model: cloud_default
     effort: medium

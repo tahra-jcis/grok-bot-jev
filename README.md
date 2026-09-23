@@ -56,7 +56,16 @@ cp config.example.yaml config.yaml
 
 ## Kick roster (`maker-pick`)
 
-One TypeSafe call fills a kick one-pager. The JSON keeps `choice` (implement maker) and `kick_mode`, and adds `model`, `effort`, `review`, `design`, and `plan`. Code honors those choices. It does not ask another model to re-argue them. Review cannot be `pooh` or `orchestrator`.
+One TypeSafe call fills a kick one-pager. The JSON keeps `choice` (implement maker) and `kick_mode`, and adds `model`, `effort`, `review`, `design`, and `plan`. Code honors those choices. It does not ask another model to re-argue them.
+
+`maker-pick` preserves box-style maker behavior:
+
+- maker criteria includes `codex_fugu` and `claude_fugu`
+- `residuals` normalize to `empty|low|med|high` and flow into Jev + output details
+- `banned` is applied before Choice
+- `self_review_forbidden + prior_maker` blocks same-maker review-role picks
+- urgency Score (`urgency_0_1`) can force `defer` when all tracked residuals are empty and urgency is low
+- review can never be `pooh` or `orchestrator`
 
 ```bash
 python -m src.cli maker-pick '{"goal":"Add roster fields to the kick one-pager","kind":"coding","constraints":"TypeSafe Choice only"}'

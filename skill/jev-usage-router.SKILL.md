@@ -46,13 +46,14 @@ python -m src.cli maker-pick '{"goal":"what the kick implements","kind":"coding"
 
 | JSON field | Write on the one-pager |
 | --- | --- |
-| `choice` | Implement maker (`cursor`, `codex`, `claude`, `grok`, or a configured role) |
+| `choice` | Implement maker (`codex_fugu`, `claude_fugu`, `cursor`, `codex`, `claude`, `defer`, `ask_human`, or a configured role) |
 | `kick_mode` | `interactive`, `background`, or `skip` |
 | `model` | `cloud_default` or the explicit model id |
 | `effort` | `low`, `medium`, `high`, or `xhigh` |
 | `review` | Review assignee. Never Pooh and never the orchestrator |
 | `design` | `skip` or the design role |
 | `plan` | `skip` or the plan role |
+| `urgency_0_1` | Urgency score (0..1). Low urgency with all-empty residuals can force `defer` |
 
 Honor `choice` and the other fields as returned. If `fail_open` is true, the router used documented defaults because Jev did not answer; say that on the one-pager. If a field is in `below_threshold`, still show that Choice and mark it low-confidence. `shadow` mode is advisory. `active` mode uses the returned roster. This command does not start the kick.
 
