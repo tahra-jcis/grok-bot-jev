@@ -17,3 +17,18 @@ limits:
 
 logging:
   path: logs/runs.jsonl
+
+# Kick roster for `python -m src.cli maker-pick`.
+# Omit makers/kick_modes/models/efforts/review/design/plan to use the
+# constants documented in DECISION_MAP.md. Review keys pooh and orchestrator
+# are dropped. Point models at explicit ids the kick platform accepts.
+maker_pick:
+  defaults:
+    # fail-open maker default; prefer_local=true still biases to cursor
+    choice: defer
+    kick_mode: interactive
+    model: cloud_default
+    effort: medium
+    review: codex
+    design: skip
+    plan: skip

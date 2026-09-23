@@ -54,6 +54,33 @@ cp config.example.yaml config.yaml
 .venv/bin/python scripts/dry_run.py
 ```
 
+## Kick roster (`maker-pick`)
+
+One TypeSafe call fills a kick one-pager. The JSON keeps `choice` (implement maker) and `kick_mode`, and adds `model`, `effort`, `review`, `design`, and `plan`. Code honors those choices. It does not ask another model to re-argue them.
+
+`maker-pick` preserves box-style maker behavior:
+
+- maker criteria includes `codex_fugu` and `claude_fugu`
+- `residuals` normalize to `empty|low|med|high` and flow into Jev + output details
+- `banned` is applied before Choice
+- `self_review_forbidden + prior_maker` blocks same-maker review-role picks
+- urgency Score (`urgency_0_1`) can force `defer` when all tracked residuals are empty and urgency is low
+- review can never be `pooh` or `orchestrator`
+
+```bash
+python -m src.cli maker-pick '{"goal":"Add roster fields to the kick one-pager","kind":"coding","constraints":"TypeSafe Choice only"}'
+```
+
+Field names, built-in options, and fail-open defaults are in [DECISION_MAP.md](DECISION_MAP.md). A disabled router, a `bypass jev` marker, or a Jev failure still returns every field (`fail_open: true`) and appends `logs/runs.jsonl`. Confidence under `thresholds.min_choice_confidence` keeps the Choice and lists the field in `below_threshold`.
+
+Offline check (no API key):
+
+```bash
+python scripts/maker_pick_smoke.py
+```
+
+`model` is `cloud_default` or an explicit model id. Override the candidate list with `maker_pick.models` in `config.yaml`. `design` and `plan` are `skip` or a role id (`cursor`, `codex`, `claude`, `grok` unless you override makers).
+
 ## Use with Grok Bot skill
 
 Copy [`skill/jev-usage-router.SKILL.md`](skill/jev-usage-router.SKILL.md) into a Grok Bot skill. The skill describes the request state, when to call this router, and how to honor each action. Run the router in the environment where this repository is installed; pass only task metadata and short context, never credentials.

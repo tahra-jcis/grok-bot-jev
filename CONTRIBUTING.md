@@ -16,6 +16,7 @@ Set `TYPESAFE_API_KEY` in your environment for live Jev calls. For offline check
 
 ```bash
 .venv/bin/python -m compileall src scripts
+.venv/bin/python scripts/maker_pick_smoke.py
 # offline dry-run
 .venv/bin/python -c "import yaml; from pathlib import Path; p=Path('config.yaml'); d=yaml.safe_load(p.read_text()); d['enabled']=False; p.write_text(yaml.safe_dump(d))"
 .venv/bin/python scripts/dry_run.py
