@@ -36,6 +36,26 @@ Use TypeSafe Jev as a cheap decision layer before expensive work. This skill is 
 
 Never treat a Jev result as permission to reveal secrets or bypass a separate safety requirement. Do not include API keys in state, prompts, logs, or tool arguments. Keep goals and notes short and redact sensitive user content before logging.
 
+## Kick one-pager (`maker-pick`)
+
+Before writing a kick one-pager, call `maker-pick` once and copy the JSON fields. Do not fill these with the placeholder `default`, and do not run another model to second-guess the Choice.
+
+```bash
+python -m src.cli maker-pick '{"goal":"what the kick implements","kind":"coding","stack":"optional","repo":"optional","constraints":"optional","risk":"optional"}'
+```
+
+| JSON field | Write on the one-pager |
+| --- | --- |
+| `choice` | Implement maker (`cursor`, `codex`, `claude`, `grok`, or a configured role) |
+| `kick_mode` | `interactive`, `background`, or `skip` |
+| `model` | `cloud_default` or the explicit model id |
+| `effort` | `low`, `medium`, `high`, or `xhigh` |
+| `review` | Review assignee. Never Pooh and never the orchestrator |
+| `design` | `skip` or the design role |
+| `plan` | `skip` or the plan role |
+
+Honor `choice` and the other fields as returned. If `fail_open` is true, the router used documented defaults because Jev did not answer; say that on the one-pager. If a field is in `below_threshold`, still show that Choice and mark it low-confidence. `shadow` mode is advisory. `active` mode uses the returned roster. This command does not start the kick.
+
 ## Honest integration limits
 
 Grok Bot has to wake and invoke this router; this skill provides no pre-wake hook and cannot reduce the cost of waking the bot. Shadow mode is advisory. Active mode is enforceable only insofar as the Grok Bot skill runtime follows this policy. Jev can misclassify or be unavailable, so preserve a safe fallback and use the kill switch when needed.
