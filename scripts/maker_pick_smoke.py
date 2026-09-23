@@ -69,7 +69,7 @@ def _cfg(enabled: bool = True) -> dict:
 def _answered() -> FakeResult:
     return FakeResult(
         {
-            "maker": FakeChoice("codex_fugu", 0.91, {"codex_fugu": 0.94, "codex": 0.06}),
+            "maker": FakeChoice("codex", 0.91, {"codex": 0.94, "cursor": 0.06}),
             "kick_mode": FakeChoice("interactive", 0.88, {"interactive": 0.9}),
             "implement_model": FakeChoice("cloud_default", 0.8, {"cloud_default": 0.85}),
             "effort": FakeChoice("high", 0.2, {"high": 0.4, "medium": 0.35}),
@@ -135,7 +135,7 @@ def main_smoke() -> int:
     )
     for field in OUTPUT_FIELDS:
         _check(field in out, f"missing {field}")
-    _check(out["choice"] == "codex_fugu", "choice")
+    _check(out["choice"] == "codex", "choice")
     _check(out["kick_mode"] == "interactive", "kick_mode")
     _check(out["model"] == "cloud_default", "model")
     _check(out["effort"] == "high", "low confidence must still honor choice")

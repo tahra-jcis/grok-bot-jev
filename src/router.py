@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any
 
 from src.config import load_config, resolve_log_path
-from src.jev_client import system_one
 from src.logger import log_run
 
 
@@ -84,6 +83,8 @@ def route_task(state: dict[str, Any]) -> dict[str, Any]:
             ],
         ),
     }
+
+    from src.jev_client import system_one
 
     result = system_one(jstate, questions, model=model)
     intent = result.choices["intent"]
